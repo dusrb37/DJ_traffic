@@ -27,7 +27,7 @@ router.get('/:id', function(req, res, next) {
     })
     .then(function() {
         console.log(JSON.parse(jsonData).response.body["TRAFFIC-LIST"].TRAFFIC);
-        res.render('traffic', {results: JSON.parse(jsonData).response.body["TRAFFIC-LIST"].TRAFFIC});
+        res.render('traffic', {title: "대전광역시 도로교통 실시간 정보", results: JSON.parse(jsonData).response.body["TRAFFIC-LIST"].TRAFFIC});
         console.log('요청 완료');
     })
     .catch(function() {
