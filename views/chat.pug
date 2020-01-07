@@ -1,0 +1,44 @@
+extends layout
+
+block content
+  h2=title
+
+  .pages
+    .login-page
+        form(action="")#loginform
+          h3.title What's your nickname?
+          input(text="text").usernameInput
+
+  ul#messages
+  
+  form(action="")#chatform
+    input(type="text" name="text")#m
+    button Send
+  
+
+  script(src='./javascripts/socket.io.js')
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js')
+  script.
+      
+    var socket = io();
+    var userId = "";
+      
+    $('#loginform').submit(function(e) {
+      e.preventDefault();
+      userId = $('.usernameInput').val()
+      $('.usernameInput').val('');
+      $('.pages').hide();
+      $('#chatform').show();
+    });
+
+    $('#chatform').submit(function(e){
+      e.preventDefault();
+      socket.emit('chatMessage', userId + " : " + $('#m').val());
+      $('#m').val('');
+      return false;
+    });
+      
+    socket.on('chatMessage', function(msg){
+      console.log(msg);
+      $('#messages').append($('<li>').text(msg));
+    });

@@ -26,12 +26,12 @@ router.get('/:id', function(req, res, next) {
         jsonData = xml2js.xml2json(body, { compact: true, spaces: 4 });
     })
     .then(function() {
-        console.log(JSON.parse(jsonData).response.body["TRAFFIC-LIST"].TRAFFIC);
+        // console.log(JSON.parse(jsonData).response.body["TRAFFIC-LIST"].TRAFFIC);
         res.render('traffic', {title: "대전광역시 도로교통 실시간 정보 알리미", results: JSON.parse(jsonData).response.body["TRAFFIC-LIST"].TRAFFIC});
-        console.log('요청 완료');
+        // console.log('요청 완료');
     })
     .catch(function() {
-        console.log('요청 실패');
+        // console.log('요청 실패');
     });
 
 });

@@ -9,6 +9,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var tableRouter = require('./routes/table');
 const trafficRouter = require('./routes/traffic');
+const chatRouter = require('./routes/chat');
 
 var app = express();
 
@@ -27,6 +28,24 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/table', tableRouter);
 app.use('/traffic', trafficRouter);
+app.use('/chat', chatRouter);
+
+app.io = require('socket.io')();
+app.io.on('connection', function (socket) {
+
+  console.log("a user connected");
+  socket.broadcast.emit('hi');
+
+  socket.on('disconnect', function () {
+    console.log('user disconnected');
+  });
+
+  socket.on('chatMessage', function (msg) {
+    console.log('message: ' + msg);
+    app.io.emit('chatMessage', msg);
+  });
+
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
